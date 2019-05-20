@@ -1,7 +1,7 @@
 def heap_sort(seq): # 实现由小到大排序，以>=为优先度高
     n = len(seq)
     def shiftdown(e, start, end):
-        i ,j = start, 2*start + 1
+        i, j = start, 2*start + 1
         while j < end:
             if j + 1 < end and seq[j+1] > seq[j]:
                 j += 1

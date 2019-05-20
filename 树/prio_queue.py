@@ -1,6 +1,6 @@
 from math import log
 
-class prioQueue:
+class PrioQueue:
     def __init__(self, seq=list()):
         self.__elem = list(seq)
         self.__size = len(self.__elem)
