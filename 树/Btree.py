@@ -3,19 +3,26 @@ class Btree():
     Binary tree based on <class 'list'>
     '''
     def __init__(self, root, L=None, R=None):
+        assert isinstance(root, (int,float,complex,str))
         assert isinstance(L, Btree) or L is None
         assert isinstance(R, Btree) or R is None
         self.__root = root
         self.__left = L
         self.__right = R
-        self.__size = self.__getsize()
         
-    def __getsize(self):
+    @property
+    def size(self):
         s = 1
         for i in (self.__left, self.__right):
             if isinstance(i, Btree):
                 s += i.size
         return s
+        
+    @property
+    def depth(self):
+        ld = self.__left.depth if self.__left else 0
+        rd = self.__right.depth if self.__right else 0
+        return 1 + max(ld, rd)
         
     def is_empty(self):
         return self.__root is None
@@ -26,13 +33,52 @@ class Btree():
                 return "[{0}]".format(self.__root)
             return "[{0} {1}]".format(self.__root, self.__left)
         return "[{0} {1} {2}]".format(self.__root, self.__left, self.__right)
+        
+    def left_right_root(self):
+        root = self
+        st = list()
+        traversals = list()
+        while st or root:
+            while root:
+                st.append(root)
+                root = root.left if root.left else root.right
+            # print([elem.val for elem in st])
+            root = st.pop()
+            traversals.append(root.val)
+            if st and st[-1].left is root:
+                root = st[-1].right
+            else:
+                root = None
+        return traversals
+        
+    def root_left_right(self):
+        root = self
+        st = list()
+        traversals = list()
+        while root or st:
+            while root:
+                st.append(root.right)
+                traversals.append(root.val)
+                root = root.left
+            if st:
+                root = st.pop()
+        return traversals
+        
+    def left_root_right(self):
+        root = self
+        st = list()
+        traversals = list()
+        while root or st:
+            while root:
+                st.append(root)
+                root = root.left
+            root = st.pop()
+            traversals.append(root.val)
+            root = root.right
+        return traversals
     
     @property
-    def size(self): # return number of nodes
-        return self.__size
-    
-    @property
-    def root(self):
+    def val(self):
         return self.__root
         
     @property
@@ -44,7 +90,7 @@ class Btree():
         return self.__right
     
     def set_root(val):
-        assert isinstance(val, (int,float,complex))
+        assert isinstance(val, (int,float,complex,str))
         self.__root = val
     
     def set_left(self, t):
@@ -67,4 +113,4 @@ if __name__ == '__main__':
     L = Btree('L')
     J = Btree('J', K, L)
     H.set_right(J)
-    print(C)
+    print(H.depth)
