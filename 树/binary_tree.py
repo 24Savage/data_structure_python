@@ -70,15 +70,15 @@ class Btree():
                 if elem is not None:
                     cors.append((x,y,elem))
                 x += step
-        return (width, cors)
+        return (width, height, cors)
                 
     def show(self):
         '''
         可视化展示当前二叉树
         下一步计划：添加节点间的连线'''
         import turtle
-        width, cors = self.__get_coordinates()
-        turtle.setworldcoordinates(-0.5,-0.5,width,width//2)
+        width, height, cors = self.__get_coordinates()
+        turtle.setworldcoordinates(-0.5,-0.5,width,height)
         turtle.hideturtle()
         turtle.penup()
         turtle.tracer(0)
@@ -86,7 +86,7 @@ class Btree():
             x, y, elem = cor
             turtle.goto(x, y)
             turtle.pendown()
-            turtle.write(elem, font=("Arial", 12, "normal"))
+            turtle.write(elem, font=("等线", 10, "normal"))
             turtle.penup()
         turtle.Screen().exitonclick()
         
