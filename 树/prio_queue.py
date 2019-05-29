@@ -6,6 +6,9 @@ class PrioQueue:
         self.__size = len(self.__elem)
         self.__makeheap()
         
+    def is_empty(self):
+        return self.__size == 0
+        
     def enqueue(self,val):
         self.__elem.append(val)
         self.__size += 1
@@ -13,7 +16,7 @@ class PrioQueue:
     
     def __shiftup(self):
         elem= self.__elem
-        i = len(elem)-1
+        i = self.__size-1
         j = (i-1)//2
         e = elem[-1]
         while j > -1:
@@ -26,10 +29,12 @@ class PrioQueue:
     def dequeue(self):
         if not self.__size:
             raise IndexError('pop from empty prioQueue')
-        e0 = self.__elem[0]
-        self.__elem[0] = self.__elem.pop()
+        elem = self.__elem
+        e0 = elem[0]
+        e = elem.pop()
         self.__size -= 1
-        if self.__size:
+        if self.__size: # 只有一个元素时，无需进行向下交换
+            elem[0] = e
             self.__shiftdown(0)
         return e0
         
